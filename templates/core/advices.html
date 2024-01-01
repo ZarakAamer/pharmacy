@@ -1,0 +1,33 @@
+{% extends 'partials/base.html' %}
+{% load static %}
+{% load i18n %}
+{% block content %}
+
+    <main class="main">
+        <div class="pt-50">
+            <div class="container">
+                <div class="row">
+                    <div class="col-xl-10 col-lg-12 m-auto">
+                        <section class="text-center mb-50">
+                            <h2 class="title style-3 mb-40">{% trans "Our Advices" %}</h2>
+                            <div class="row">
+                                {% for i in advices %}
+                                <div class="col-lg-4 col-md-6 mb-24">
+                                    <div class="featured-card">
+                                        <img src="{{ i.image.url }}" alt="" />
+                                        <h4 class="text-bold text-siz-nm">{{ i.title }}</h4>
+                                        <p class="text-size-nm">{{ i.description }}</p>
+                                        <a href="{% url 'advice' i.id %}">{% trans "Read more" %}</a>
+                                    </div>
+                                </div>
+                                {% endfor %}
+                                
+                            </div>
+                        </section>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+{% endblock content %}

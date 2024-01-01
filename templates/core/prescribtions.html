@@ -1,0 +1,36 @@
+{% extends 'partials/base.html' %} {% load static %} {% load i18n %} {% block content %} <main class="main"
+    id="wishlist-list">
+    <div class="container mb-30 mt-50">
+        <div class="row">
+            <div class="col-xl-10 col-lg-12 m-auto">
+                <div class="mb-50">
+                    <h1 class=" mb-10">{% trans "Your Prescribtions" %}</h1>
+                    <h6 class="text-body">{% trans "Need a prescribtion?" %} <span class="text-brand"> <a
+                                href="#prescribfrom">{% trans "click here to submit a form." %}</a> </span></h6>
+                </div>
+                <div class="table-responsive shopping-summery">
+                    <table class="table ">
+                        <thead>
+                            <tr class="main-heading">
+                                <th scope="col">{% trans "User" %}</th>
+                                <th scope="col">{% trans "Subject" %}</th>
+                                <th scope="col">{% trans "Action" %}</th>
+                            </tr>
+                        </thead>
+                        <tbody> {% for pres in preses %} <tr class="pt-30">
+                                <td class="image product-thumbnail pt-40">{{ pres.user.username }} </td>
+                                <td class="">
+                                    <h6>{{ pres.subject }}</h6>
+                                </td>
+                                <td class="price d-fdlex fs-1" data-title="Price">
+                                    <span class="text-brand">
+                                        <a class="btn" href="{% url 'presdetails' pres.id %}">{% trans "View" %}</a>
+                                    </span>
+                                </td>
+                            </tr> {% endfor %} </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</main> {% endblock content %}

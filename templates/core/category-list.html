@@ -1,0 +1,47 @@
+{% extends 'partials/base.html' %}
+{% load static %}
+{% load i18n %}
+
+{% block content %}
+
+<div class="container">
+    <div class="row" style="padding: 40px 10px;">
+        <div class="col-lg-9">
+            <div class="loop-grid pr-30">
+                <div class="row">
+                    {% for c in categories %}
+                    <article class="col-xl-3 col-lg-4 col-md-4 col-sm-6 col-6 text-center hover-up mb-30 animated">
+                        <div class="post-thumb">
+                            <a href="{% url 'category-product-list' c.id %}">
+                                <img class="default-img" src="{{c.image.url}}" />
+                            </a>
+                        
+                        </div>
+                        <div class="entry-content-2">
+                            <h6 class="mb-10 text-size-nm"><a class="entry-meta text-muted" href="{% url 'category-product-list' c.id %}">{{ c.title }}</a></h6>                            
+                        </div>
+                    </article>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-3 primary-sidebar sticky-sidebar" >
+            <div class="widget-area">
+            
+                <div class="sidebar-widget widget-category-2 mb-50">
+                    <h5 class="section-title style-1 mb-30 text-size-nm text-bold-md">{% trans "Main Categories" %}</h5>
+                    <ul>
+                        {% for c in main_cats %}
+                        <li class="text-size-sm">
+                            <a href="{% url 'main_category_products' c.id %}"> <img src="{{c.image.url}}"
+                                    alt="" />{{c.title}}</a><span class="count">{{c.product_count }}</span>
+                        </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+{% endblock content %}

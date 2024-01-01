@@ -1,0 +1,374 @@
+{% extends 'partials/base.html' %}
+{% load static %}
+{% load i18n %}
+
+{% block content %}
+
+<style>
+
+.carausel-card{
+    
+    padding: 5px;
+    overflow: hidden;
+    width: minmax(160px 200px);
+    height:minmax(160px 200px);
+    margin: 0px 20px;
+
+}
+@media screen and (max-width:667px){
+        
+    
+    .title-category{
+        font-size: x-small;
+    }
+    .carausel-card{
+            padding: 3px;
+    }
+}
+</style>
+<main class="main">
+      
+    {% for message in messages %}
+        {% if message %}
+            <div class="alert">{{message}}</div>
+        {% endif %}
+    {% endfor %}
+        
+    <div class="container mb-30" style="max-width: 100% !important; overflow-x: hidden;">
+        <div class="row flex-row-reverse">
+            <!-- <div class="col-lg-4-5"> -->
+            <section class="home-slider position-relative mb-30">
+                <div class="home-slide-cover">
+                    <div class="hero-slider-1 style-4 dot-style-1 dot-style-1-position-1">
+                        {% for i in big_banners %}
+                            <div class="single-hero-slider single-animation-wrap"
+                                style="background-image: url({{ i.image.url }})">
+                                <div class="slider-content">
+                                    <a href="{{i.url}}">
+                                        <h1 class="text-bold-md text-size-xl mb-40">
+                                            {{ i.name }}
+                                        </h1>
+                                    </a>
+                                    <a href="{{i.url}}"><p class="mb-65">{{i.user_catcher}}</p></a>
+                                    <a href="{{i.url}}"><p class="mb-65">{{i.short_line}}</p></a>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </section>
+        </div>
+                <!--End hero-->
+
+
+         
+                
+    
+                <section class="section-padding position-relative" style="max-width: 100%;">
+                    <div class="container tab-content" id="myTabContent">
+                        <div class="tab-pane fade show active" id="tab-one" role="tabpanel" aria-labelledby="tab-one">
+                            <div class="row product-grid-4">
+                                {% for p in products %}
+                                    <div class="col-xl-2 col-md-3 col-sm-4 col-6">
+                                        <div class="product-cart-wrap mb-30">
+                                            <div class="product-img-action-wrap">
+                                                
+                                                <div class="product-img product-img-zoom">
+                                                    <a href="{% url 'product-detail' p.id %}">
+                                                        <img class="default-img" src="{{ p.image.url }}" alt=""
+                                                            style="height: 180px !important; max-width: 180px; object-fit: cover;" />
+                                                        <img class="hover-img" src="{{ p.image.url }}" alt=""
+                                                            style="height: 180px !important; max-width: 180px; object-fit: cover;" />
+                                                    </a>
+                                                </div>
+                                                
+                                                <div class="product-action-1">
+                                                    <a aria-label="Add To Wishlist" class="action-btn add-to-wishlist"
+                                                        data-product-item="{{p.id}}"><i class="fi-rs-heart"></i></a>
+                                                    <!-- <a aria-label="Compare" class="action-btn" href="shop-compare.html"><i class="fi-rs-shuffle"></i></a> -->
+                                                    <a href="{% url 'product-detail' p.id %}" class="action-btn"><i
+                                                            class="fi-rs-eye"></i></a>
+                                                </div>
+                                                <div class="product-badges product-badges-position product-badges-mrg text-bold">
+                                                    {% if p.get_precentage != 0 %}
+                                                        <span class="hot">-{{p.get_precentage|floatformat:0}}%</span>
+                                                            
+                                                    {% else %}
+                                                        <span></span>
+                                                    {% endif %}
+
+                                        
+                                                </div>
+                                                {% if p.is_prescription %}
+                                                    <div class="product-badges product-badges-position product-badges-mrg text-bold-md">
+                                                        <span class="hot" >Prescription only</span>
+                                                    </div>
+                                                {% endif %}
+                                            </div>
+                                            <div class="product-content-wrap">
+                                            
+                                                    <h2><a class="text-size-nm" href="{% url 'product-detail' p.id %}">{{ p.title }}</a></h2>
+                                                <div class="product-rate-cover">
+                                                     <div class="product-rate d-inline-block">
+                                                        <div class="product-rating" style="width: {{p.percentage_rating }}%"></div>
+                                                    
+                                                    </div>
+                                                    <i class="fas fa-star text-warning"></i>
+                                                    <span class="ml-5 text-muted">
+                                                        ({{ p.reviews.all.count}})</span>
+                                                </div>
+
+                                                <div class="product-card-bottom">
+                                                    <div class="product-price">
+                                                        {% if p.old_price == None %}
+                                                            <span class="new-price text-size-nm text-bold-mx">{{p.price}}</span>
+                                                            <span>SDG </span> 
+
+                                                            {% else %}
+                                                            <span class="old-price text-size-sm"> {{p.old_price}}</span>
+                                                            <span class="new-price text-size-nm text-bold-mx">{{p.price}}</span>
+                                                            <span>SDG </span> 
+
+                                                            {% endif %}
+                                                    </div>
+                                                    <div class="add-cart">
+                                                        <input type="hidden" value="1" id="product-quantity" class="product-quantity-{{ p.id }}">
+                                                        <input type="hidden" class="product-id-{{ p.id }}" value="{{ p.id }}">
+
+                                                        <div class="d-flex" style="justify-content: flex-end;">
+                                                            <button class="add add-to-cart-btn" data-index="{{ p.id }}" style="border: none;" id="add-to-cart-btn"><i class="fi-rs-shopping-cart mr-5"></i></button>
+                                                            <button style="border: none; background: none;" class="add-to-wishlist" data-product-item="{{p.id}}"><i class="fi-rs-heart" style="fill: aqua;"></i></button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                {% endfor %}
+                            </div>
+                            {% if products.has_other_pages %}
+                                <div class="pagination-area mt-20 mb-20">
+                                    <nav aria-label="Page navigation example">
+                                        <ul class="pagination justify-content-start">
+                                            {% if products.has_previous %}
+                                                <li class="page-item">
+                                                    <a class="page-link" href="?page={{ products.previous_page_number }}">&laquo;</a>
+                                                </li>
+                                            {% endif %}
+                                            
+                                            {% for i in products.paginator.page_range %}
+                                                {% if i == products.number %}
+                                                    <li class="page-item active">
+                                                        <a class="page-link" href="?page={{i}}">{{i}}</a>
+                                                    </li>
+                                                {% else %}
+                                                    {% if i > products.number|add:"-3" and i < products.number|add:"3" %}
+                                                        <li class="page-item">
+                                                            <a class="page-link" href="?page={{i}}">{{i}}</a>
+                                                        </li>
+                                                    {% endif %}
+                                                {% endif %}
+                                            {% endfor %}
+                                            
+                                            {% if products.has_next %}
+                                                <li class="page-item">
+                                                    <a class="page-link" href="?page={{ products.next_page_number }}">&raquo;</a>
+                                                </li>
+                                            {% endif %}
+                                        </ul>
+                                    </nav>
+                                </div>
+                            {% endif %}
+
+                        </div>
+                  </div>
+                </section>
+
+                <!--Products Tabs-->
+                <section class="section-padding pb-5 container">
+                    <div class="section-title">
+                        <h3 class="text-bold-md">{% trans "Deals Of The Day" %}</h3>
+                    </div>
+
+                    <div class="row">
+
+                            {% for i in offers %} 
+                                <div class="col-xl-3 col-lg-3 col-md-4 col-sm-6">
+                                    <div class="product-cart-wrap style-2">
+                                        <div class="product-img-action-wrap">
+                                            <div class="product-img">
+                                                <a href="{% url 'product-detail' i.product.id %}">
+                                                    <img src="{{ i.product.image.url }}" alt="" />
+                                                </a>
+                                            </div>
+                                        </div>
+                                        <div class="product-content-wrap">
+                                            <div class="deals-countdown-wrap text-size-sm">
+                                                <div class="deals-countdown" data-countdown="{{i.ending}}"></div>
+                                            </div>
+                                            <div class="deals-content">
+                                                <h2><a class="text-size-nm text-bold-md" href="{% url 'product-detail' i.product.id %}">{{ i.product.title }}</a>
+                                                </h2>
+                                                <div class="product-rate-cover">
+                                                    <div class="product-rate d-inline-block">
+                                                        <div class="product-rating" style="width: {{p.percentage_rating }}%"></div>
+                                                    
+                                                    </div>
+                                                    <span class=" ml-5 text-muted"> ({{i.product.reviews.count}})</span>
+                                                </div>
+                                            
+                                                <div class="product-card-bottom">
+                                                    {% if i.product.old_price == None %}
+                                                    <span class="new-price text-size-nm text-bold-mx">{{i.product.price}}</span>
+                                                    <span>SDG </span> 
+
+                                                    {% else %}
+                                                    <span class="old-price"> {{i.product.old_price}}</span>
+                                                    <span class="new-price text-size-nm text-bold-mx">{{i.product.price}}</span>
+                                                    <span>SDG </span> 
+
+                                                    {% endif %}
+                                                </div>
+                                                    <div class="add-cart">
+                                                        <a class="add" href="{% url 'add-to-cart' i.product.id %}"><i
+                                                                class="fi-rs-shopping-cart mr-5"></i> </a>
+                                                    
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            {% endfor %}                        
+                    </div>
+                </section>
+                
+
+    </div>
+    
+    <!--End category slider-->
+    <section class="section-padding mb-30">
+        <div class="container">
+            <div class="row">
+                <div class="col-xl-3 col-lg-4 col-md-6 mb-sm-5 mb-md-0 d-none d-lg-block">
+                    <h4 class="text-size-l text-bold section-title style-1 mb-30 animated animated">{% trans "Trending Products"%}</h4>
+                    {% for i in trending %}
+                    <div class="product-list-small animated animated">
+                        <article class="row align-items-center hover-up">
+                            <figure class="col-md-4 mt-20">
+                                <a href="{% url 'product-detail' i.id %}"><img
+                                        src="{{ i.image.url }}" alt="" /></a>
+                            </figure>
+                            <div class="col-md-8 mb-0">
+                                <h6>
+                                    <a class="text-siz-nm text-bold-md" href="{% url 'product-detail' i.id %}">{{ i.title }}</a>
+                                </h6>
+                                <div class="product-rate-cover">
+                                    <div class="product-rate d-inline-block">
+                                        <div class="product-rating" style="width: {{i.percentage_rating }}%"></div>
+                                    </div>
+                                    <span class=" ml-5 text-muted"> {{ i.reviews.all.count }}</span>
+                                </div>
+                                <div class="product-price">
+                                    {% if i.old_price == None %}
+                                        <span >{{i.price}}</span>
+                                        <span>SDG </span> 
+
+                                        {% else %}
+                                        <span class="old-price"> {{i.old_price}}</span>
+                                        <span >{{i.price}}</span>
+                                        <span>SDG </span> 
+
+                                        {% endif %}
+                                </div>
+                            </div>
+                        </article>
+                        
+                    </div>
+                    {% endfor %}
+                </div>
+                <div class="col-xl-3 col-lg-4 col-md-6 mb-sm-5 mb-md-0 d-none d-lg-block">
+                    <h4 class="text-size-l text-bold section-title style-1 mb-30 animated animated">{% trans "Recently added" %}</h4>
+                     {% for i in recent %}
+                    <div class="product-list-small animated animated">
+                        <article class="row align-items-center hover-up">
+                            <figure class="col-md-4 mt-20">
+                                <a href="{% url 'product-detail' i.id %}"><img
+                                        src="{{ i.image.url }}" alt="" /></a>
+                            </figure>
+                            <div class="col-md-8 mb-0">
+                                <h6>
+                                    <a class="text-siz-nm text-bold-md" href="{% url 'product-detail' i.id %}">{{ i.title }}</a>
+                                </h6>
+                                <div class="product-rate-cover">
+                                    <div class="product-rate d-inline-block">
+                                        <div class="product-rating" style="width: {{i.percentage_rating }}%"></div>
+
+                                    </div>
+                                    <span class=" ml-5 text-muted"> {{ i.reviews.all.count }}</span>
+                                </div>
+                                
+                                                    <div class="product-price">
+                                                        {% if i.old_price == None %}
+                                                            <span >{{i.price}}</span>
+                                                            <span>SDG </span> 
+
+                                                            {% else %}
+                                                            <span class="old-price"> {{i.old_price}}</span>
+                                                            <span >{{i.price}}</span>
+                                                            <span>SDG </span> 
+
+                                                            {% endif %}
+                                                    </div>
+                            </div>
+                        </article>
+                        
+                    </div>
+                    {% endfor %}
+                </div>
+                <div class="col-xl-3 col-lg-4 col-md-6 mb-sm-5 mb-md-0 d-none d-lg-block">
+                    <h4 class="text-size-l text-bold section-title style-1 mb-30 animated animated">{% trans "Top Rated" %}</h4>
+                    {% for i in rated %}
+                        <div class="product-list-small animated animated">
+                            <article class="row align-items-center hover-up">
+                            <figure class="col-md-4 mt-20">
+                                <a href="{% url 'product-detail' i.id %}"><img
+                                        src="{{ i.image.url }}" alt="" /></a>
+                            </figure>
+                            <div class="col-md-8 mb-0">
+                                <h6>
+                                    <a class="text-siz-nm text-bold" href="{% url 'product-detail' i.id %}">{{ i.title }}</a>
+                                </h6>
+                                <div class="product-rate-cover">
+                                    <div class="product-rate d-inline-block">
+                                        <div class="product-rating" style="width: {{i.percentage_rating }}%"></div>
+                                        
+                                    </div>
+                                    <span class=" ml-5 text-muted"> {{ i.reviews.all.count }}</span>
+                                </div>
+                                                    <div class="product-price">
+                                                        {% if i.old_price == None %}
+                                                            <span >{{i.price}}</span>
+                                                            <span>SDG </span> 
+
+                                                            {% else %}
+                                                            <span class="old-price"> {{i.old_price}}</span>
+                                                            <span >{{i.price}}</span>
+                                                            <span>SDG </span> 
+
+                                                            {% endif %}
+                                                    </div>
+                            </div>
+                            </article>
+
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </section>
+    <!--End 4 columns-->
+</main>
+
+
+
+{% endblock content %}

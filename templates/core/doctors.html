@@ -1,0 +1,57 @@
+{% extends 'partials/base.html' %}
+{% load static %}
+{% load i18n %}
+
+{% block content %}
+<main class="main" id="wishlist-list">
+
+
+    <div class="container mb-30 mt-50">
+                  <div class="mb-50">
+                    <h1 class=" mb-10">{% trans "Online Doctors" %}</h1>
+                       </div>
+        <div class="row">
+           
+      
+             <div class="table-responsive shopping-summery">
+                    <table class="table ">
+                        <thead>
+                            <tr class="main-heading">
+                              
+                                <th class="text-size-nm text-bold-md" scope="col">{% trans "Image" %}</th>
+                                <th class="text-size-nm text-bold-md" scope="col">{% trans "Name" %}</th>
+                                <th class="text-size-nm text-bold-md" scope="col">{% trans "Speciality" %}</th>
+                                <th class="text-size-nm text-bold-md" scope="col">{% trans "#Contact" %}</th>
+                                <th class="text-size-nm text-bold-md" scope="col">{% trans "Timing" %}</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for i in doctors %}
+
+
+                            <tr class="pt-30 text-size-nm">
+                                <td class="doctors-image product-thumbnail pt-40"><img src="{{ i.image.url }}">
+                                </td>
+                                <td>
+                                    <h6>{{i.name}}</h6>
+                                </td>
+                           
+                                 <td >
+                                    {{i.speciality}}
+                                </td>
+                              
+                                <td>
+                                   <p> {{i.number}}</p>
+                                </td>
+                                
+                                <td>
+                                    {{i.timing}}
+                                </td>
+                             
+                            </tr>
+                            {% endfor  %}
+                           </tbody>
+                    </table>
+    </div>
+</main>
+{% endblock content %}

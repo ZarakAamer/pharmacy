@@ -1,0 +1,43 @@
+{% extends 'partials/base.html' %}
+{% load static %}
+{% load i18n %}
+{% block content %}
+
+    <main class="main pages">
+       
+        <div class=" pt-50">
+            <div class="container">
+                <div class="row">
+                    <div class="col-xl-10 col-lg-12 m-auto">
+                        <div class="row">
+                            <div class="col-lg-9">
+                                <div class="single-page pr-30 mb-lg-0 mb-sm-5">
+                                    <div class="single-header style-2">
+                                        <h2>{% trans "Detailed view of your prescribtion" %}</h2>
+                                        <div class="entry-meta meta-1 meta-3 font-xs mt-15 mb-15">
+                                           <p>{{ pres.subject }}</p>
+                                        </div>
+                                    </div>
+                                    </div>
+                                    {% if pres.image %}
+                                    <img src="{{pres.image.url}}" alt="">
+                                    {% endif %}
+                                    <div class="single-content mb-50">
+
+                                    </div>
+                                     {% if pres.insurance_image %}
+                                    <img src="{{pres.insurance_image.url}}" alt="">
+                                    {% endif %}
+                                    
+                                    <div class="containermb-50">
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+{% endblock content %}

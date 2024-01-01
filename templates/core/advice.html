@@ -1,0 +1,50 @@
+{% extends 'partials/base.html' %}
+{% load static %}
+{% load i18n %}
+{% block content %}
+    <main class="main">
+       
+        <div class=" pt-50">
+            <div class="container">
+                <section class="home-slider position-relative mb-30">
+                    <div class="home-slide-cover mt-30">
+                        <div class="hero-slider-1 style-4 dot-style-1 dot-style-1-position-1">
+                            
+                            <div class="single-hero-slider single-animation-wrap"
+                                style="background-image: url({{ advice.image.url }})">
+                             
+                            
+                            </div>
+                     
+                        </div>
+
+                    </div>
+                </section>
+                <div class="row">
+                    <div class="col-xl-10 col-lg-12 m-auto">
+                        <div class="row">
+                            <div class="col-lg-9">
+                                <div class="single-page pr-30 mb-lg-0 mb-sm-5">
+                                    <div class="single-header style-2">
+                                        
+                                        <h1 class="text-bold text-size-l">{{ advice.title }}</h1>
+                                        
+                                    </div>
+                                    </div>
+                                    {{ advice.description }}
+                                    <div class="single-content mb-50">
+
+                                    </div>
+                                    {{advice.advice|safe}}
+                                    <div class="containermb-50">
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+{% endblock content %}

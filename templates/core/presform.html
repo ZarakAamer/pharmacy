@@ -1,0 +1,73 @@
+{% extends 'partials/base.html' %} {% load static %} {% load i18n %} {% block content %} <main class="main"
+    id="wishlist-list">
+     <style>
+        input{
+            border: 2px solid grey;
+            padding: 20px;
+            border-radius: 6px !important;
+
+        }
+        label{
+            border-bottom: 2px solid grey;
+            padding: 20px;
+            border-radius: 10px !important;
+
+        }
+    </style>
+<div class="container" id="prescribfrom">
+        <div class="row">
+            <div class="col-xl-10 col-lg-12 m-auto">
+                <section class="mb-50">
+                    <div class="row">
+                        <div class="col-xl-8">
+                            <div class="contact-from-area padding-20-row-col">
+                                
+                                <h4 class="text-success" id="message-response"></h4>
+                                <form  class="contact-form-style mt-30" action="{% url 'prescreate' %}"  method="POST" enctype="multipart/form-data">
+                                    {% csrf_token %}
+                                    <div class="row">
+                                        
+                                        <div class="col-lg-12 col-md-12">
+                                            <div class="input-style mb-20">
+                                                <input name="subject"   placeholder="Subject" type="text" />
+                                            </div>
+                                        </div>
+                                         <div class="col-lg-12 col-md-12">
+                                            <div class="input-style mb-20">
+                                                <input name="img" type="file" id="cameraButton" accept="image/*" required style="display: none;" />
+                                                <label for="cameraButton" class="fileInputLabel"><span style=""> <i class="fi fi-rs-file"></i> </span>{% trans "Attach Your Prescription (Required)" %}</label>
+
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-12 col-md-12">
+                                            <button class="submit submit-auto-width" type="submit">{% trans "Submit" %}</button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                        <div class="col-lg-4 pl-50 d-lg-block d-none">
+                            <img class="border-radius-15 mt-50" src="{% static 'assets/imgs/page/contact-2.png' %}" alt="" />
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </div>
+    <script>
+        
+  document.getElementById('cameraButton').addEventListener('click', function() {
+    navigator.mediaDevices.getUserMedia({ video: true })
+      .then(function(stream) {
+        var video = document.createElement('video');
+        video.srcObject = stream;
+        document.body.appendChild(video);
+      })
+      .catch(function(error) {
+        console.error('Error accessing the camera: ', error);
+      });
+  });
+
+    </script>
+
+</main> {% endblock content %}

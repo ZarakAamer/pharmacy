@@ -1,0 +1,633 @@
+{% load static %}
+{% load i18n %}
+
+<!DOCTYPE html>
+<html class="no-js" lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <title>{% trans "Pharmacy Online Care" %}
+</title>
+    <meta http-equiv="x-ua-compatible" content="ie=edge" />
+    <meta name="description" content="" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta property="og:title" content="" />
+    <meta property="og:type" content="" />
+    <meta property="og:url" content="" />
+    <meta property="og:image" content="" />
+    <!-- Favicon -->
+    <!-- Template CSS -->
+    <link rel="stylesheet" href="{% static 'assets/css/plugins/slider-range.css' %}" />
+    <link rel="stylesheet" href="{% static 'assets/css/main.css' %}" />
+
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+        integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script> -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+
+
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css"
+        integrity="sha512-tS3S5qG0BlhnQROyJXvNjeEM4UpMXHrQfTGmbQ1gKmelCxlSEBUaxhRBj/EFTzpbP4RVSrpEikbmdJobCvhE3g=="
+        crossorigin="anonymous" />
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.theme.default.min.css"
+        integrity="sha512-sMXtMNL1zRzolHYKEujM2AqCLUR9F2C4/05cdbxjjLSRvMQIciEPCQZo++nk7go3BtSuK9kfa/s+a4f4i5pLkw=="
+        crossorigin="anonymous" />
+
+
+</head>
+
+<body>
+
+    <header class="header-area header-style-1 header-height-2">
+
+        <div class="header-top header-top-ptb-1 d-none d-lg-block">
+            <div class="container">
+                <div class="row align-items-center">
+                    
+                    <div class="col-xl-2 col-lg-2">
+                        <div class="header-info header-info-right">
+                            <div class="header-action-icon-2" >
+                                    <form action="{% url 'set_language' %}" method="post">
+                                        {% csrf_token %}
+                                        <input name="next" type="hidden" value="{{ redirect_to }}">
+                                        <select name="language" onchange="this.form.submit()">
+                                            {% get_current_language as LANGUAGE_CODE %}
+                                            {% get_available_languages as LANGUAGES %}
+                                            {% get_language_info_list for LANGUAGES as languages %}
+                                            {% for language in languages %}
+                                                <option value="{{ language.code }}"{% if language.code == LANGUAGE_CODE %} selected{% endif %}> {{ language.name_local }}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </form>
+                                </div>     
+                        </div>
+                    </div>
+
+                    <div class="col-xl-6 col-lg-6">
+                        <div class="text-center text-size-sm">
+                            <div id="news-flash" class="d-inline-block">
+                                <ul>
+                                    <li>100% Secure delivery without contacting the courier</li>
+                                    <li>Supper Value Deals - Save more with coupons</li>
+                                    <li>Sepcial Services</li>
+                                    <li>E-Prescription</li>
+                                    <li>Advices</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        <div class="header-middle header-middle-ptb-1 d-none d-lg-block text-size-md">
+            <div class="container" >
+                <div class="header-wrap" >
+                    <div class="logo logo-width-1">
+                        <a href="{% url 'index' %}"><img src="{% static 'assets/imgs/theme/logo.png' %}" alt="logo" /></a>
+                    </div>
+
+                    <div class="header-right">
+                        <div class="search-style-2 text-size-sm" >
+                         
+                            <form action="{% url 'search' %}" method="GET">
+                                <input type="text" placeholder="Search for items..." name="q" />
+                                <button class="material-symbols-outlined" type="submit"><span
+                                        class="material-symbols-outlined">{% trans "search" %}</span></button>
+                            </form>
+                        </div>
+                        <div class="header-action-right">
+                            <div class="header-action-2">
+
+                                                        
+
+                                <div class="header-action-icon-2">
+                                    <a href="{% url 'advices' %}"><i  class="fi fi-rs-document"></i><sub  > {% trans "Advices" %}</sub></a>    
+                                </div>
+
+                                <div class="header-action-icon-2">
+                                    <a href="{% url 'presform' %}"> <i class="fi fi-rs-doctor"></i><sub > {% trans "e-Prescribtion" %}</sub></a>
+                                </div>
+
+                                <div class="header-action-icon-2">
+                                    <a href="{% url 'presinsurance' %}"> <i class="fi fi-rs-document"></i><sub > {% trans "Insuarance" %}</sub></a>
+                                </div>
+
+                                <div class="header-action-icon-2">
+                                    <a href="{% url 'doctors' %}"> <i  class="fi fi-rs-stethoscope"></i><sub > {% trans "Doctors" %}</sub></a>
+                                </div>
+
+                                <div class="header-action-icon-2">
+                                    <a href="{% url 'wishlist' %}">
+                                        <i  class="svgInject fi fi-rs-heart"></i>
+                                        {% if request.user.is_authenticated %}
+                                        <span class="pro-count blue text-size-sm">{{ wishlist.count }}</span>
+                                        {% else %}
+                                        <span class="pro-count blue text-size-sm">0</span>
+                                        {% endif %}
+                                    </a>
+                                </div>
+
+                                <div class="header-action-icon-2">
+                                    <a class="mini-cart-icon" href="{% url 'cart' %}">
+                                        <i  class="svgInject fi fi-rs-shopping-cart"></i>
+                                        {% if cart %}
+                                        <span class="pro-count blue text-size-sm cart-items-count">{{ cart.get_all_cart_items }}</span>
+                                        {% else %}
+                                         <span class="pro-count blue text-size-sm cart-items-count">0</span>
+                                         {% endif %}
+                                    </a>
+                                </div>
+
+                                <div class="header-action-icon-2">
+                                    <a href="{% url 'dashboard' %}">
+                                        <i  class="svgInject fi fi-rs-user"></i>
+                                    </a>
+                                    
+                                    <div class="cart-dropdown-wrap cart-dropdown-hm2 account-dropdown text-size-sm">
+                                        <ul>
+                                            <li><a href="{% url 'dashboard' %}"><i class="fi fi-rs-user mr-10"></i>{% trans "My Account" %}
+                                                    </a></li>
+
+
+                                            {% if request.user.is_authenticated %}
+                                            <li><a href="{% url 'sign-out' %}"><i
+                                                        class="fi fi-rs-sign-out mr-10"></i>{% trans "Sign out" %}</a></li>
+                                            {% else %}
+                                            <li><a href="{% url 'sign-in' %}"><i
+                                                        class="fi fi-rs-sign-in mr-10"></i>{% trans "Sign In" %}</a></li>
+                                            {% endif %}
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+
+
+        <div class="header-bottom header-bottom-bg-color sticky-bar ">
+            <div class="container">
+                <div class="header-wrap header-space-between position-relative">
+                    <div class="logo logo-width-1 d-block d-lg-none">
+                        <a href="{% url 'index' %}"><img src="{% static 'assets/imgs/theme/logo.png' %}" alt="logo" /></a>
+                    </div>
+                    <div class="header-nav d-none d-lg-flex">
+
+                        <div class="main-menu main-menu-padding-1  d-none d-lg-block font-heading text-size-sm">
+                            <nav>
+                                <ul>
+                                    {% for main_cat in main_cats_8 %}
+                                    <li class="position-static">
+                                        <a href="#">{{ main_cat.title }}<i class="fi-rs-angle-down"></i></a>
+                                        <ul class="mega-menu">
+
+                                            {% for sub_cat in main_cat.subcats.all %}
+                                            <li >
+                                                <a class="menu-title text-size-md" href="#">{{ sub_cat.title }}</a>
+                                                <ul>
+                                                    {% for cat in sub_cat.cats.all %}
+                                                    <li><a class="text-size-sm" href="{% url 'category-product-list' cat.id %}">{{ cat.title }}</a></li>
+                                                    {% endfor %}
+                                                </ul>
+                                            </li>
+                                            {% endfor %}
+                                        </ul>
+                                    </li>
+                                    {% endfor %}
+
+                                    <li>
+                                        <a href="{% url 'category-list' %}">{% trans "All Categories" %}</a>
+                                    </li>
+                                </ul>
+                            </nav>
+                        </div>
+                    </div>
+
+                    <div class="header-action-icon-2 d-block d-lg-none">
+                        <div class="burger-icon burger-icon-white">
+                            <span class="burger-icon-top"></span>
+                            <span class="burger-icon-mid"></span>
+                            <span class="burger-icon-bottom"></span>
+                        </div>
+                    </div>
+                    <div class="header-action-right d-block d-lg-none">
+                        <div class="header-action-2">
+                            <div class="header-action-icon-2">
+                                <a href="{% url 'wishlist' %}">
+                                    <img alt="pharmacyonline" src="{% static 'assets/imgs/theme/icons/icon-heart.svg' %}" />
+                                    {% if request.user.is_authenticated %}
+                                    <span class="pro-count blue text-size-sm">{{ wishlist.count }}</span>
+                                    {% else %}
+                                    <span class="pro-count blue text-size-sm">0</span>
+                                    {% endif %}
+                                </a>
+                            </div>
+                            <div class="header-action-icon-2">
+                                <a class="mini-cart-icon" href="{% url 'cart' %}">
+                                    <img alt="pharmacyonline" src="{% static 'assets/imgs/theme/icons/icon-cart.svg' %}" />
+                                    {% if cart %}
+                                    <span class="pro-count blue cart-items-count text-size-sm">
+                                        {{ cart.get_all_cart_items }}</span>
+                                        {% else %}
+                                        <span class="pro-count blue  cart-items-count text-size-sm">0</span>
+                                        {% endif %}
+                                </a>
+                                <div class="cart-dropdown-wrap cart-dropdown-hm2">
+
+                                    <div class="shopping-cart-footer">
+                                        <div class="shopping-cart-button">
+                                            <a href="{% url 'cart' %}">{% trans "View cart" %}</a>
+                                            <a href="{% url 'checkout' %}">{% trans "Checkout" %}</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>        
+    </header>
+
+
+
+
+
+    <div class="mobile-header-active mobile-header-wrapper-style">
+        <div class="mobile-header-wrapper-inner">
+            <div class="mobile-header-top">
+                <div class="mobile-header-logo">
+                    <a href="{% url 'index' %}"><img src="{% static 'assets/imgs/theme/logo.png' %}" alt="logo" /></a>
+                </div>
+                <div class="mobile-menu-close close-style-wrap close-style-position-inherit">
+                    <button class="close-style search-close">
+                        <i class="icon-top"></i>
+                        <i class="icon-bottom"></i>
+                    </button>
+                </div>
+            </div>
+            <div class="mobile-header-content-area">
+                <div class="mobile-search search-style-3 mobile-header-border text-size-smx">
+                    <form action="#">
+                        <input type="text" placeholder="Search for items…" />
+                        <button type="submit"><i class="fi-rs-search"></i></button>
+                    </form>
+                </div>
+                <div class="mobile-menu-wrap mobile-header-border text-size-sm">
+                    <!-- mobile menu start -->
+                    <nav>
+                        <ul class="mobile-menu font-heading">
+                            <li class="menu-item-has-children">
+                                <a href="{% url 'index' %}">{% trans "Home" %}</a>
+                            </li>
+                            <li class="menu-item-has-children">
+                                <a href="{% url 'product-list' %}">{% trans "Deals" %}</a>
+                            </li>
+                      
+
+                            <li class="menu-item-has-children"><a href="{% url 'advices' %}">{% trans "Advices" %} </a></li>
+                            <li class="menu-item-has-children"><a href="{% url 'presform' %}"> {% trans "e-Prescription" %}</a></li>
+                            <li class="menu-item-has-children"><a href="{% url 'presinsurance' %}"> {% trans "Insuarance" %}</a></li>
+                            <li class="menu-item-has-children"><a href="{% url 'doctors' %}"> {% trans "Doctors" %}</a></li>
+                            <li class="menu-item-has-children"><a href="{% url 'privacy_policy' %}">{% trans "Privacy Policy" %}</a></li>
+                            <li class="menu-item-has-children"><a href="{% url 'terms_of_service' %}">{% trans "Terms of Service" %}</a></li>
+                    
+
+
+
+
+
+                            {% for main_cat in main_cats %}
+
+                            <li class="menu-item-has-children">
+                                <a href="#">{{ main_cat.title }}</a>
+                                <ul class="dropdown">
+                                    {% for sub_cat in main_cat.subcats.all %}
+
+                                    <li class="menu-item-has-children">
+                                        <a href="#">{{ sub_cat.title }}</a>
+                                        <ul class="dropdown">
+                                            {% for cat in sub_cat.cats.all %}
+                                            <li><a href="{% url 'category-product-list' cat.id %}">{{cat.title}}</a>
+                                            </li>
+                                            {% endfor %}
+                                        </ul>
+                                    </li>
+                                    {% endfor %}
+                                </ul>
+                            </li>
+
+                            {% endfor %}
+
+
+
+
+
+                            <li class="menu-item-has-children">
+                                <a href="{% url 'contact' %}">{% trans "Contact" %}</a>
+                            </li>
+
+
+
+                            <li class="menu-item-has-children">
+                                <form action="{% url 'set_language' %}" method="post">{% csrf_token %}
+                      <input name="next" type="hidden" value="{{ redirect_to }}">
+                      <select name="language" onchange="this.form.submit()">
+                          {% get_current_language as LANGUAGE_CODE %}
+                          {% get_available_languages as LANGUAGES %}
+                          {% get_language_info_list for LANGUAGES as languages %}
+                          {% for language in languages %}
+                              <option value="{{ language.code }}"{% if language.code == LANGUAGE_CODE %} selected{% endif %}>
+                               <i style="color: #253D4E; font-size: x-large;"  class="fi fi-rs-stethoscope"></i>{{ language.name_local }} 
+                              </option>
+                          {% endfor %}
+                      </select>
+                  </form>
+                            </li>
+
+                             <li class="menu-item-has-children">
+                                <a href="#">{% trans "Our Locations" %}</a>
+                                <ul class="dropdown">
+                                    {% for location in locations %}
+                                    <li><a href="{% url 'location' location.id %}">{{location.city_name}}</a></li>
+                                    {% endfor %}
+                                </ul>
+                            </li>
+                        </ul>
+                    </nav>
+                    <!-- mobile menu end -->
+                </div>
+                <div class="mobile-header-info-wrap">
+                  
+                    <div class="single-mobile-header-info">
+                        <a href="{% url 'sign-in' %}"><i class="fi-rs-user"></i>{% trans "Log In / Sign Up" %} </a>
+                    </div>
+                </div>
+
+                <div class="site-copyright text-size-smx">Copyright 2023 - All rights reserved. Powered by asaan.store.
+                     <a class="text-size-sm" href="https://zarak.xyz">This site is developed by Zarak</a></div>
+            </div>
+        </div>
+    </div>
+
+
+    
+
+    <!--End header-->
+
+    {% block content %}
+
+
+
+
+    {% endblock content %}
+    <!-- <a style="position: fixed; bottom: 6%; left: 4%; z-index: 9999 !important;" href="https://wa.me/+249918100781?text=I'm%20interested%20in%20to%20chat'" class="whatsapp-botton"><img src="{% static 'assets/imgs/whatsapp.png' %}" alt="Whtsapp" width="80px"/></a> -->
+
+
+<style>
+    
+
+</style>
+    <footer class="main">
+
+
+        <div class="container mb-30">
+            <div class="row flex-row-reverse">
+                <div class="col-lg-4-8">
+                    <section class="home-slider position-relative mb-30">
+                        <div class="home-slide-cover mt-30">
+                            <div class="hero-slider-1 style-4 dot-style-1 dot-style-1-position-1">
+                                {% for i in big_banners %}
+                                <div class="single-hero-slider single-animation-wrap" style="background-image: url({{ i.image.url }})">
+                                    <div class="slider-content">
+                                        <h1 class="text-bold-md text-size-xl mb-40" >
+                                            {{ i.name }}
+                                        </h1>
+                                        <p class="mb-65">{{i.user_catcher}}</p>
+                                        <p class="mb-65">{{i.short_line}}</p>
+                                    </div>
+                                </div>
+                                {% endfor %}
+                            </div>
+
+                        </div>
+                    </section>
+
+                </div>
+            </div>
+        </div>
+        <section class="featured section-padding">
+            <div class="container">
+                <div class="row justify-content-center">
+                    <div class="col-lg-1-5 col-md-4 col-12 col-sm-6 mb-md-4 mb-xl-0">
+                        <div class="banner-left-icon d-flex align-items-center wow fadeIn animated">
+                            <div class="banner-icon text-size-l">
+                                <i class="fas fa-tags fa-lg"></i>
+                            </div>
+                            <div class="banner-text">
+                                <h3 class="text-size-md">{% trans "Best prices & offers" %}</h3>
+                                <p class="text-size-sm">{% trans "You order we deliver" %}</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-1-5 col-md-4 col-12 col-sm-6">
+                        <div class="banner-left-icon d-flex align-items-center wow fadeIn animated">
+                            <div class="banner-icon text-size-l">
+                                <i class="fas fa-truck fa-lg"></i>
+                            </div>
+                            <div class="banner-text">
+                                <h3 class="text-size-md">{% trans "Free delivery" %}</h3>
+                                <p class="text-size-sm">{% trans "24/7 amazing services" %}</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-1-5 col-md-4 col-12 col-sm-6">
+                        <div class="banner-left-icon d-flex align-items-center wow fadeIn animated">
+                            <div class="banner-icon  text-size-l">
+                                <i class="fas fa-exchange-alt fa-lg"></i>
+                            </div>
+                            <div class="banner-text">
+                                <h3 class="text-size-md">{% trans "Easy returns" %}</h3>
+                                <p class="text-size-sm">{% trans "Within 30 days" %}</p>
+                            </div>
+                        </div>
+                    </div>
+                 
+                </div>
+            </div>
+        </section>
+        <section class="section-padding footer-mid">
+            <div class="container pt-15 pb-20">
+                <div class="row">
+                    <div class="col">
+                        <div class="widget-about  mb-md-3 mb-lg-3 mb-xl-0 text-size-nm">
+                            <div class="logo mb-30">
+                                <a href="{% url 'index' %}" class="mb-15"><img height="100"
+                                        src="{% static 'assets/imgs/theme/logo.png' %}" alt="logo" /></a>
+                            </div>
+                            <ul class="contact-info" style="list-style: none;">
+                                <li><i class="fas fa-map-marker-alt fa-sm"></i> <span>Asaan.store</span></li>
+                                <li><i class="fas fa-map-marker-alt fa-sm"></i> <span>Riyadh Saudi Arabia</span></li>
+                                <li><i class="fas fa-phone fa-sm"></i><span> +966 563329147</span></li>
+                                <li><i class="fas fa-envelope fa-sm"></i> <span><a
+                                            href="mailto:muhdzarak@gmail.com"> contact@zarak.xyz</a></span>
+                                </li>
+
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="footer-link-widget col">
+                        <h4 class="widget-title text-size-l text-bold">{% trans "Company" %}</h4>
+                        <ul class="footer-list text-size-nm mb-sm-5 mb-md-0">
+                            <li><a href="{% url 'about_us' %}">{% trans "About Us" %}</a></li>
+                            <li><a href="{% url 'dashboard' %}">{% trans "Delivery Information" %}</a></li>
+                            <li><a href="{% url 'privacy_policy' %}">{% trans "Privacy Policy" %}</a></li>
+                            <li><a href="{% url 'contact' %}">{% trans "Contact Us" %}</a></li>
+                            <li><a href="{% url 'contact' %}">{% trans "Support Center" %}</a></li>
+                        </ul>
+                    </div>
+                    <div class="footer-link-widget col">
+                        <h4 class="widget-title text-size-l text-bold">{% trans "Account" %}</h4>
+                        <ul class="footer-list text-size-nm mb-sm-5 mb-md-0">
+                            <li><a href="{% url 'sign-in' %}">{% trans "Sign In" %}</a></li>
+                            <li><a href="{% url 'wishlist' %}">{% trans "My Wishlist" %}</a></li>
+                            <li><a href="{% url 'dashboard' %}">{% trans "Track My Order" %}</a></li>
+                        </ul>
+                    </div>
+
+
+                    <div class="footer-link-widget widget-install-app col">
+                        <h4 class="widget-title text-size-l text-bold">{% trans "Install App" %}</h4>
+                        <p class="wow fadeIn animated">{% trans "From App Store or Google Play" %}</p>
+                        <div class="download-app">
+                            <a href="#" class="hover-up mb-sm-2 mb-lg-0"><img class="active"
+                                    src="{% static 'assets/imgs/theme/app-store.jpg' %}" alt="" /></a>
+                            <a href="#" class="hover-up mb-sm-2"><img
+                                    src="{% static 'assets/imgs/theme/google-play.jpg' %}" alt="" /></a>
+                        </div>
+                       
+                    </div>
+                </div>
+            </div>
+        </section>
+        <div class="container pb-30">
+            <div class="row align-items-center">
+                <div class="col-12 mb-30">
+                    <div class="footer-bottom"></div>
+                </div>
+                <div class="col-xl-4 col-lg-6 col-md-6">
+                    <p class="font-sm mb-0">&copy; 2023, <strong class="text-brand">{% trans "Assan.us" %}</strong> - {% trans " .All rights reserved" %}
+                        </p>
+                </div>
+
+                <div class="col-xl-4 col-lg-6 col-md-6 text-end d-none d-md-block">
+                    <div class="mobile-social-icon">
+                        <h6>{% trans "Follow Us" %}</h6>
+                        <a href="#"><img src="{% static 'assets/imgs/theme/icons/icon-facebook-white.svg' %}"
+                                alt="" /></a>
+                        <a href="#"><img src="{% static 'assets/imgs/theme/icons/icon-twitter-white.svg' %}"
+                                alt="" /></a>
+                        <a href="#"><img src="{% static 'assets/imgs/theme/icons/icon-instagram-white.svg' %}"
+                                alt="" /></a>
+                        <a href="#"><img src="{% static 'assets/imgs/theme/icons/icon-pinterest-white.svg' %}"
+                                alt="" /></a>
+                        <a href="#"><img src="{% static 'assets/imgs/theme/icons/icon-youtube-white.svg' %}"
+                                alt="" /></a>
+                    </div>
+                </div>
+
+            </div>
+            <p class="font-sm">This website is developed by <a href="https://zarak.xyz">Zarak</a></p>
+
+
+        </div>
+
+    </footer>
+
+
+    <script>
+        setTimeout(() => {
+            $(".alert").alert("close");
+        }, 3000)
+    </script>
+    <script data-cfasync="false"
+        src="{% static '/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js' %}"></script>
+    <script src="{% static 'assets/js/vendor/modernizr-3.6.0.min.js' %}"></script>
+    <script src="{% static 'assets/js/vendor/jquery-3.6.0.min.js' %}"></script>
+    <script src="{% static 'assets/js/vendor/jquery-migrate-3.3.0.min.js' %}"></script>
+    <script src="{% static 'assets/js/vendor/bootstrap.bundle.min.js' %}"></script>
+    <script src="{% static 'assets/js/plugins/slick.js' %}"></script>
+    <script src="{% static 'assets/js/plugins/jquery.syotimer.min.js' %}"></script>
+    <script src="{% static 'assets/js/plugins/wow.js' %}"></script>
+    <script src="{% static 'assets/js/plugins/slider-range.js' %}"></script>
+    <script src="{% static 'assets/js/plugins/perfect-scrollbar.js' %}"></script>
+    <script src="{% static 'assets/js/plugins/magnific-popup.js' %}"></script>
+    <script src="{% static 'assets/js/plugins/select2.min.js' %}"></script>
+    <script src="{% static 'assets/js/plugins/waypoints.js' %}"></script>
+    <script src="{% static 'assets/js/plugins/counterup.js' %}"></script>
+    <script src="{% static 'assets/js/plugins/jquery.countdown.min.js' %}"></script>
+    <script src="{% static 'assets/js/plugins/images-loaded.js' %}"></script>
+    <script src="{% static 'assets/js/plugins/isotope.js' %}"></script>
+    <script src="{% static 'assets/js/plugins/scrollup.js' %}"></script>
+    <script src="{% static 'assets/js/plugins/jquery.vticker-min.js' %}"></script>
+    <script src="{% static 'assets/js/plugins/jquery.theia.sticky.js' %}"></script>
+    <script src="{% static 'assets/js/plugins/jquery.elevatezoom.js' %}"></script>
+    <!-- Template  JS -->
+    <script src="{% static 'assets/js/main.js' %}"></script>
+    <script src="{% static 'assets/js/shop.js' %}"></script>
+    <script src="{% static 'assets/js/function.js' %}"></script>
+  
+<script>
+  $(document).ready(function() {
+    $('#location-select').on('change', function() {
+      const selectedValue = $(this).val();
+      if (selectedValue !== '') {
+        $('#location-form').attr('action', selectedValue).submit();
+      }
+    });
+  });
+</script>
+
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"
+        integrity="sha512-bPs7Ae6pVvhOSiIcyUClR7/q2OAsRiovw4vAkX+zJbw3ShAeeqezq50RIIcIURq7Oa20rW2n2q+fyXBNcU9lrw=="
+        crossorigin="anonymous"></script>
+    <script>
+        $('.owl-carousel').owlCarousel({
+            loop: true,
+            margin: 15,
+            nav: true,
+            responsive: {
+                0: {
+                    items: 1
+                },
+                600: {
+                    items: 2
+                },
+                1000: {
+                    items: 3
+                }
+            }
+        })
+    </script>
+
+
+
+</body>
+
+</html>

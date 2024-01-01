@@ -1,0 +1,80 @@
+{% extends 'partials/base.html' %}
+{% load static %}
+{% load i18n %}
+
+{% block content %}
+<main class="main" id="wishlist-list">
+    <div class="container mb-30 mt-50">
+        <div class="row">
+            <div class="col-xl-10 col-lg-12 m-auto">
+                <div class="mb-50">
+                    <h1 class=" mb-10">{% trans "Your Wishlist" %}</h1>
+                    <h6 class="text-body">{% trans "There are" %} <span class="text-brand">{{ w.count }}</span> {% trans "products in this list" %}</h6>
+                </div>
+                <div class="table-responsive shopping-summery">
+                    <table class="table ">
+                        <thead>
+                            <tr class="main-heading">
+                               
+                                <th style="padding-left:8px" scope="col" colspan="2">{% trans "Product" %}</th>
+                                <th scope="col">{% trans "Price" %}</th>
+                                <th scope="col">{% trans "Stock Status" %}</th>
+                                <th scope="col">{% trans "Action" %}</th>
+                                <th scope="col" class="end">{% trans "Remove" %}</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for w in w %}
+
+
+                            <tr class="pt-30">
+                       
+                                <td style="padding-left:8px" class="image product-thumbnail pt-40"><img src="{{w.product.image.url}}" alt="#" />
+                                </td>
+                                <td class="">
+                                    <h6><a class=" mb-10" href="{% url 'product-detail' w.product.id %}">{{w.product.title|truncatechars:30 }}</a></h6>
+
+                                </td>
+                                <td class="price d-fdlex fs-1" data-title="Price">
+                                    <span class="text-brand">SDG </span><span
+                                        class="text-brand current-product-price-{{ w.product.id }}">{{ w.product.price }}</span>
+                                </td>
+                                <td class="text-center detail-info" data-title="Stock">
+                                    <span class="stock-status in-stock mb-0"> {% if w.product.in_stock %} In Stock {%else %} Out of Stock {% endif %}</span>
+                                </td>
+                                <td class="text-right" data-title="Cart">
+
+
+                                    <input type="hidden" value="1" id="product-quantity"
+                                        class="product-quantity-{{ w.product.id }}">
+                                    <input type="hidden" class="product-pid-{{ w.product.id }}"
+                                        value="{{ w.product.id }}">
+                                    <input type="hidden" class="product-image-{{ w.product.id }}"
+                                        value="{{ w.product.image.url }}">
+                                    <input type="hidden" class="product-id-{{ w.product.id }}"
+                                        value="{{ w.product.id }}">
+                                    <input type="hidden" class="product-title-{{ w.product.id }}"
+                                        value="{{ w.product.title }}">
+
+                                    <a class="btn btn-sm add-to-cart-btn{{p.id}}" href="{% url 'add-to-cart' w.product.id %}">{% trans "Add to cart" %}</a>
+                                </td>
+                                <td class="action text-center" data-title="Remove">
+                                    <button style="border: none; background: none;" data-wishlist-product="{{ w.id }}"
+                                        class="text-body delete-wishlist-product"><i class="fi-rs-trash"></i></button>
+                                </td>
+                            </tr>
+                            {% empty %}
+                            <tr>
+                                <td>
+                                    <p>{% trans "Nothing in wishlist yet..." %}</p>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+{% endblock content %}
